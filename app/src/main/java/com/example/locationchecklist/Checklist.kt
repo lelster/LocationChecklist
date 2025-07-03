@@ -4,5 +4,5 @@ data class Checklist(
     val id: String,
     val name: String,
     val location: String,
-    val items: List<ChecklistItem>
+    val items: MutableList<ChecklistItem>
 )

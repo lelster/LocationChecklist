@@ -29,8 +29,8 @@ class MainActivity : AppCompatActivity() {
             Checklist(
                 id = "1",
                 name = "Home Tasks",
-                location = "Home", // Oder "47.3769,8.5417"
-                items = listOf(
+                location = "Home",
+                items = mutableListOf(
                     ChecklistItem("1", "Take out trash", false),
                     ChecklistItem("2", "Water plants", true),
                     ChecklistItem("3", "Clean desk", false)
@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
             Checklist(
                 id = "2",
                 name = "Grocery List",
-                location = "Store", // Oder "47.3780,8.5400"
-                items = listOf(
+                location = "Store",
+                items = mutableListOf(
                     ChecklistItem("1", "Milk", false),
                     ChecklistItem("2", "Bread", false),
                     ChecklistItem("3", "Eggs", true)
