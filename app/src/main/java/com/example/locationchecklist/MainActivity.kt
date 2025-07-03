@@ -1,10 +1,14 @@
 package com.example.locationchecklist
 
+import ChecklistAdapter
+import android.content.Intent
 import android.os.Bundle
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -16,5 +20,39 @@ class MainActivity : AppCompatActivity() {
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
         }
+        // RecyclerView to display a button per Entry
+        val recyclerView = findViewById<RecyclerView>(R.id.checklistRecyclerView)
+        recyclerView.layoutManager = LinearLayoutManager(this)
+
+        // Temporary data to see if it works
+        val checklists = listOf(
+            Checklist(
+                id = "1",
+                name = "Home Tasks",
+                location = "Home", // Oder "47.3769,8.5417"
+                items = listOf(
+                    ChecklistItem("1", "Take out trash", false),
+                    ChecklistItem("2", "Water plants", true),
+                    ChecklistItem("3", "Clean desk", false)
+                )
+            ),
+            Checklist(
+                id = "2",
+                name = "Grocery List",
+                location = "Store", // Oder "47.3780,8.5400"
+                items = listOf(
+                    ChecklistItem("1", "Milk", false),
+                    ChecklistItem("2", "Bread", false),
+                    ChecklistItem("3", "Eggs", true)
+                )
+            )
+        )
+        // Adapter to go on to ChecklistActivity Page
+        val adapter = ChecklistAdapter(checklists) { checklist ->
+            val intent = Intent(this, ChecklistActivity::class.java)
+            intent.putExtra("checklistId", checklist.id)
+            startActivity(intent)
+        }
+        recyclerView.adapter = adapter
     }
 }
