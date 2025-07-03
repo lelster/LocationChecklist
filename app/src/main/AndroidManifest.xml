@@ -23,6 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".ChecklistActivity"></activity>
+        <activity android:name=".CreateChecklistActivity"></activity>
     </application>
 
 </manifest>
