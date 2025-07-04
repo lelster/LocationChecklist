@@ -8,7 +8,7 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
 class ChecklistItemAdapter(
-    private val items: List<ChecklistItem>,
+    private val items: MutableList<ChecklistItem>,
     private val onCheckedChange: (ChecklistItem) -> Unit
 ) : RecyclerView.Adapter<ChecklistItemAdapter.ItemViewHolder>() {
 
@@ -26,10 +26,10 @@ class ChecklistItemAdapter(
     override fun onBindViewHolder(holder: ItemViewHolder, position: Int) {
         val item = items[position]
         holder.itemText.text = item.text
-        holder.checkBox.isChecked = item.isDone
 
         holder.checkBox.setOnCheckedChangeListener(null)
         holder.checkBox.isChecked = item.isDone
+
         holder.checkBox.setOnCheckedChangeListener { _, isChecked ->
             item.isDone = isChecked
             onCheckedChange(item)

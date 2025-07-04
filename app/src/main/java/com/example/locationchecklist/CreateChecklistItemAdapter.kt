@@ -16,7 +16,7 @@ class CreateChecklistItemAdapter(
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ItemViewHolder {
         val view = LayoutInflater.from(parent.context)
-            .inflate(R.layout.checklist_item_row, parent, false)
+            .inflate(R.layout.create_checklist_item_row, parent, false)
         return ItemViewHolder(view)
     }
 

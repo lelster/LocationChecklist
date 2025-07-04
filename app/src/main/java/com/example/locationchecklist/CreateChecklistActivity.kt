@@ -88,20 +88,17 @@ class CreateChecklistActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            // Get current location (mocked here; implement real GPS if needed)
-            // val currentLocation = getCurrentLocation() // Implement as needed
-            val currentLocation = location // For demo, use selected spinner value
-
             val checklist = Checklist(
                 id = System.currentTimeMillis().toString(),
                 name = title,
-                location = currentLocation,
+                location = location,
                 items = items.toMutableList()
             )
 
-            // TODO: Save checklist to repository/database
+            val currentChecklists = ChecklistRepository.loadChecklists(this)
+            currentChecklists.add(checklist)
+            ChecklistRepository.saveChecklists(this, currentChecklists)
 
-            // Return to previous screen
             finish()
         }
     }
