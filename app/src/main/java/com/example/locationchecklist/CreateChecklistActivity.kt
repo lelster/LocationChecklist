@@ -15,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView
 class CreateChecklistActivity : AppCompatActivity() {
 
     private lateinit var titleEditText: EditText
-    private lateinit var locationSpinner: Spinner
+    private lateinit var locationEditText: EditText
     private lateinit var itemsRecyclerView: RecyclerView
     private lateinit var addItemButton: Button
     private lateinit var cancelButton: Button
@@ -29,19 +29,11 @@ class CreateChecklistActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_checklist)
 
         titleEditText = findViewById(R.id.titleEditText)
-        locationSpinner = findViewById(R.id.locationSpinner)
+        locationEditText = findViewById(R.id.locationEditText)
         itemsRecyclerView = findViewById(R.id.itemsRecyclerView)
         addItemButton = findViewById(R.id.addItemButton)
         cancelButton = findViewById(R.id.cancelButton)
         saveButton = findViewById(R.id.saveButton)
-
-        // Populate spinner with example locations
-        val locations = arrayOf("Home", "Work", "Other")
-        locationSpinner.adapter = ArrayAdapter(
-            this,
-            android.R.layout.simple_spinner_dropdown_item,
-            locations
-        )
 
         itemAdapter = CreateChecklistItemAdapter(items)
         itemsRecyclerView.layoutManager = LinearLayoutManager(this)
@@ -78,7 +70,7 @@ class CreateChecklistActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val title = titleEditText.text.toString().trim()
-            val location = locationSpinner.selectedItem.toString()
+            val location = locationEditText.text.toString().trim()
             if (title.isEmpty()) {
                 Toast.makeText(this, "Please enter a checklist name.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener

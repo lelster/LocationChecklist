@@ -1,10 +1,13 @@
 package com.example.locationchecklist
 
+import android.graphics.Color
 import android.os.Bundle
 import android.widget.Button
+import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -45,24 +48,39 @@ class ChecklistActivity : AppCompatActivity() {
 
         checklistTitle.text = checklist.name
 
-        itemAdapter = ChecklistItemAdapter(checklist.items) { changedItem ->
+        itemAdapter = ChecklistItemAdapter(checklist.items) {
             ChecklistRepository.saveChecklists(this, allChecklists)
         }
+
 
         itemRecyclerView.layoutManager = LinearLayoutManager(this)
         itemRecyclerView.adapter = itemAdapter
 
         addItemButton.setOnClickListener {
-            val newItem = ChecklistItem(
-                id = System.currentTimeMillis().toString(),
-                text = "New Item",
-                isDone = false
-            )
-            checklist.items.add(newItem)
-            itemAdapter.notifyItemInserted(checklist.items.size - 1)
-
-            ChecklistRepository.saveChecklists(this, allChecklists)
+            val editText = EditText(this)
+            editText.setTextColor(Color.WHITE)
+            editText.hint = "Item description"
+            editText.setHintTextColor(Color.GRAY)
+            AlertDialog.Builder(this)
+                .setTitle("Add Item")
+                .setView(editText)
+                .setPositiveButton("Add") { _, _ ->
+                    val text = editText.text.toString().trim()
+                    if (text.isNotEmpty()) {
+                        val newItem = ChecklistItem(
+                            id = System.currentTimeMillis().toString(),
+                            text = text,
+                            isDone = false
+                        )
+                        checklist.items.add(newItem)
+                        itemAdapter.notifyItemInserted(checklist.items.size - 1)
+                        ChecklistRepository.saveChecklists(this, allChecklists)
+                    }
+                }
+                .setNegativeButton("Cancel", null)
+                .show()
         }
+
         val backButton = findViewById<Button>(R.id.backButton)
         backButton.setOnClickListener {
             finish()

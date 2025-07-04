@@ -27,13 +27,20 @@
             android:background="@android:drawable/editbox_background"/>
 
         <!-- Location Dropdown -->
-        <Spinner
-            android:id="@+id/locationSpinner"
+        <EditText
+            android:id="@+id/locationEditText"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="18dp"
-            android:background="@android:drawable/btn_dropdown"
-            android:popupBackground="#333333"/>
+            android:hint="Location (e.g., Home, Work)"
+            android:textColor="#FFFFFF"
+            android:textColorHint="#777777"
+            android:backgroundTint="#3F51B5"
+            android:textSize="18sp"
+            android:inputType="textPersonName"
+            android:padding="12dp"
+            android:background="@android:drawable/editbox_background"
+            android:layout_marginTop="18dp"/>
+
 
         <!-- Checklist items label -->
         <TextView
