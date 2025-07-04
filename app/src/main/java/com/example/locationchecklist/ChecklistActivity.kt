@@ -63,5 +63,10 @@ class ChecklistActivity : AppCompatActivity() {
 
             ChecklistRepository.saveChecklists(this, allChecklists)
         }
+        val backButton = findViewById<Button>(R.id.backButton)
+        backButton.setOnClickListener {
+            finish()
+        }
+
     }
 }
