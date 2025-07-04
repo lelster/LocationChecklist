@@ -3,14 +3,18 @@ package com.example.locationchecklist
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
-import android.widget.Spinner
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.app.ActivityCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.gms.location.LocationServices
+import android.Manifest
+import android.content.pm.PackageManager
+
+
 
 class CreateChecklistActivity : AppCompatActivity() {
 
@@ -70,7 +74,6 @@ class CreateChecklistActivity : AppCompatActivity() {
 
         saveButton.setOnClickListener {
             val title = titleEditText.text.toString().trim()
-            val location = locationEditText.text.toString().trim()
             if (title.isEmpty()) {
                 Toast.makeText(this, "Please enter a checklist name.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
@@ -80,18 +83,47 @@ class CreateChecklistActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val checklist = Checklist(
-                id = System.currentTimeMillis().toString(),
-                name = title,
-                location = location,
-                items = items.toMutableList()
-            )
+            val fusedLocationClient = LocationServices.getFusedLocationProviderClient(this)
 
-            val currentChecklists = ChecklistRepository.loadChecklists(this)
-            currentChecklists.add(checklist)
-            ChecklistRepository.saveChecklists(this, currentChecklists)
+            if (ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_FINE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
+                    this,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ) != PackageManager.PERMISSION_GRANTED
+            ) {
+                ActivityCompat.requestPermissions(
+                    this,
+                    arrayOf(Manifest.permission.ACCESS_FINE_LOCATION),
+                    1
+                )
+                Toast.makeText(this, "Location permission required to save location.", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            finish()
+            fusedLocationClient.lastLocation.addOnSuccessListener { location ->
+                if (location != null) {
+                    val latLng = "${location.latitude},${location.longitude}"
+
+                    val checklist = Checklist(
+                        id = System.currentTimeMillis().toString(),
+                        name = title,
+                        location = latLng,
+                        items = items.toMutableList()
+                    )
+
+                    val currentChecklists = ChecklistRepository.loadChecklists(this)
+                    currentChecklists.add(checklist)
+                    ChecklistRepository.saveChecklists(this, currentChecklists)
+
+                    Toast.makeText(this, "Checklist saved with location.", Toast.LENGTH_SHORT).show()
+                    finish()
+                } else {
+                    Toast.makeText(this, "Unable to get current location.", Toast.LENGTH_SHORT).show()
+                }
+            }
         }
+
     }
 }

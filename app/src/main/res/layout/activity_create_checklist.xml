@@ -93,7 +93,7 @@
                 android:id="@+id/saveButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Save"
+                android:text="Save and set current location"
                 android:textColor="#FFFFFF"
                 android:backgroundTint="#388E3C"/>
         </LinearLayout>
