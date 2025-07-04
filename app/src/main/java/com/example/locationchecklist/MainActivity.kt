@@ -9,6 +9,7 @@ import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -54,5 +55,11 @@ class MainActivity : AppCompatActivity() {
             startActivity(intent)
         }
         recyclerView.adapter = adapter
+
+        val addChecklistButton = findViewById<FloatingActionButton>(R.id.addChecklistButton)
+        addChecklistButton.setOnClickListener {
+            val intent = Intent(this, CreateChecklistActivity::class.java)
+            startActivity(intent)
+        }
     }
 }
